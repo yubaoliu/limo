@@ -69,6 +69,7 @@ include_directories(
     include/${PROJECT_NAME}
     ${mrt_INCLUDE_DIRS}
     ${catkin_INCLUDE_DIRS}
+    /usr/include/eigen3
     )
 
 link_directories(

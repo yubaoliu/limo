@@ -1,0 +1,15 @@
+[submodule "mono_lidar_depth"]
+	path = mono_lidar_depth
+	url = https://github.com/johannes-graeter/mono_lidar_depth.git
+[submodule "viso2"]
+	path = viso2
+	url = https://github.com/johannes-graeter/viso2.git
+[submodule "mrt_cmake_modules"]
+	path = mrt_cmake_modules
+	url = https://github.com/johannes-graeter/mrt_cmake_modules.git
+[submodule "rosinterface_handler"]
+	path = rosinterface_handler
+	url = https://github.com/johannes-graeter/rosinterface_handler.git
+[submodule "feature_tracking"]
+	path = feature_tracking
+	url = https://github.com/johannes-graeter/feature_tracking.git

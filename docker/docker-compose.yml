@@ -1,4 +1,4 @@
-version: '3.4'
+version: '2.3'
 
 services:
   limo:
@@ -6,9 +6,13 @@ services:
     build:
       context: ./src
     image: ros:melodic-perception
+    command: bash
     ports:
       - 8888:8888
     volumes:
-      - $HOME/limo_data:/limo_data
+      # - $HOME/limo_data:/limo_data
+      - ..:/workspace/limo_ws/src/limo
+      - $HOME/data/Dataset:/limo_data
     stdin_open: true
     tty: true
+    network_mode: "host"

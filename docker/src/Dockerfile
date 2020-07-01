@@ -27,6 +27,7 @@ RUN apt update && apt install --no-install-recommends -y \
     lcov \
     tmux \
     python-pip \
+    python-tk \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/*
@@ -56,33 +57,42 @@ RUN rm -rf /workspace \
 # WORKDIR /workspace/limo_ws
 # RUN catkin config --profile limo_release -x _limo_release --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS=-Wall -Wextra -Wno-unused-parameter -Werror=address -Werror=array-bounds=1 -Werror=bool-compare -Werror=comment -Werror=enum-compare -Werror=format -Werror=init-self -Werror=logical-not-parentheses -Werror=maybe-uninitialized -Werror=memset-transposed-args -Werror=nonnull -Werror=nonnull-compare -Werror=openmp-simd -Werror=parentheses -Werror=return-type -Werror=sequence-point -Werror=sizeof-pointer-memaccess -Werror=switch -Werror=tautological-compare -Werror=trigraphs -Werror=uninitialized -Werror=volatile-register-var
 
+RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc \
+    && echo "source /workspace/limo_ws/devel/setup.bash" >> ~/.bashrc
+
 # Install limo
 WORKDIR /workspace/limo_ws/src
-RUN rm -rf /workspace/limo_ws/src/limo \
-    && git clone https://github.com/johannes-graeter/limo.git \
-    && rm -rf /workspace/limo_ws/src/feature_tracking \
-    && git clone https://github.com/johannes-graeter/feature_tracking.git \
-    && cd feature_tracking \
-    && git checkout python_binding \
-    && cd .. \
-    && rm -rf /workspace/limo_ws/src/mono_lidar_depth \
-    && git clone https://github.com/johannes-graeter/mono_lidar_depth.git \
-    && rm -rf /workspace/limo_ws/src/viso2.git \
-    && git clone https://github.com/johannes-graeter/viso2.git \
-    && rm -rf /workspace/limo_ws/src/mrt_cmake_modules \
-    && git clone https://github.com/johannes-graeter/mrt_cmake_modules.git \
-    && rm -rf /workspace/limo_ws/src/rosinterface_handler \
-    && git clone https://github.com/johannes-graeter/rosinterface_handler.git
-
-WORKDIR /workspace/limo_ws/
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin build'
-
-WORKDIR /workspace/limo_ws/src/feature_tracking/feature_tracking_core/notebook
-RUN jupytext feature_tracking_notebook.py --to notebook
-
+# RUN rm -rf /workspace/limo_ws/src/limo \
+#     && git clone https://github.com/johannes-graeter/limo.git \
+#     && rm -rf /workspace/limo_ws/src/feature_tracking \
+#     && git clone https://github.com/johannes-graeter/feature_tracking.git \
+#     && cd feature_tracking \
+#     && git checkout python_binding \
+#     && cd .. \
+#     && rm -rf /workspace/limo_ws/src/mono_lidar_depth \
+#     && git clone https://github.com/johannes-graeter/mono_lidar_depth.git \
+#     && rm -rf /workspace/limo_ws/src/viso2.git \
+#     && git clone https://github.com/johannes-graeter/viso2.git \
+#     && rm -rf /workspace/limo_ws/src/mrt_cmake_modules \
+#     && git clone https://github.com/johannes-graeter/mrt_cmake_modules.git \
+#     && rm -rf /workspace/limo_ws/src/rosinterface_handler \
+#     && git clone https://github.com/johannes-graeter/rosinterface_handler.git
+# 
+# WORKDIR /workspace/limo_ws/
+# # RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin build'
+# RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash'
+# RUN /bin/bash -c 'echo "export PATH=/usr/include/eigen3:$PATH" >> /root/.bashrc'
+# RUN /bin/bash -c "export PATH=/usr/include/eigen3:$PATH \
+#     && source /opt/ros/melodic/setup.bash \
+#     && cd /workspace/limo_ws/ \
+#     && catkin_make"
+# 
+# WORKDIR /workspace/limo_ws/src/feature_tracking/feature_tracking_core/notebook
+# RUN jupytext feature_tracking_notebook.py --to notebook
+ 
 COPY entry.sh /entry.sh
 RUN chmod +x /entry.sh
-
+  
 ENTRYPOINT ["/entry.sh"]
 # CMD ["bash"]
-CMD /bin/bash -c 'source /opt/ros/melodic/setup.bash && source /workspace/limo_ws/devel/setup.bash && jupyter notebook --port=8888 --no-browser --ip=0.0.0.0 --allow-root /workspace/limo_ws/src/feature_tracking/feature_tracking_core/notebook/feature_tracking_notebook.ipynb'
+# CMD /bin/bash -c 'source /opt/ros/melodic/setup.bash && source /workspace/limo_ws/devel/setup.bash && jupyter notebook --port=8888 --no-browser --ip=0.0.0.0 --allow-root /workspace/limo_ws/src/feature_tracking/feature_tracking_core/notebook/feature_tracking_notebook.ipynb'
