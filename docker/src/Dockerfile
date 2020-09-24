@@ -28,12 +28,17 @@ RUN apt update && apt install --no-install-recommends -y \
     tmux \
     python-pip \
     python-tk \
+    xterm \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/*
 
-RUN pip install pykitti \
-    jupyter \
+RUN pip install --upgrade pip \
+    pip install pykitti \
+    pip install ipython==5.5.0 \
+    pip install ipykernel==4.8.2 \
+    # pip install jupyter
+    # jupyter --user
     jupytext --upgrade
 
 # Install ceres solver
