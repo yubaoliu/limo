@@ -34,6 +34,7 @@ RUN apt update && apt install --no-install-recommends -y \
     && rm -rf /tmp/*
 
 RUN pip install --upgrade pip \
+    pyrsistent==0.16.1 \
     pip install pykitti \
     pip install ipython==5.5.0 \
     pip install ipykernel==4.8.2 \
